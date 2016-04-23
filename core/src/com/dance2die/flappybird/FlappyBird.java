@@ -25,7 +25,7 @@ public class FlappyBird extends ApplicationAdapter {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         batch.draw(background, 0, 0, width, height);
-        batch.draw(bird, width / 2, height / 2, width, height);
+        batch.draw(bird, width / 2 - bird.getWidth() / 2, height / 2 - bird.getHeight() / 2);
 
 		batch.end();
 	}
