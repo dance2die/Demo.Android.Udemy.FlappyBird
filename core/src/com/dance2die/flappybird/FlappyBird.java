@@ -8,20 +8,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class FlappyBird extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
-	
+	Texture background;
+	Texture bird;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		background = new Texture("bg.png");
+		bird = new Texture("bird.png");
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
+
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+        batch.draw(background, 0, 0, width, height);
+        batch.draw(bird, width / 2, height / 2, width, height);
+
 		batch.end();
 	}
 }
