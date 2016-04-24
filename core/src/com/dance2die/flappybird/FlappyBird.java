@@ -13,19 +13,37 @@ public class FlappyBird extends ApplicationAdapter {
 	Texture[] birds;
     int flapState = 0;
 
+    float birdY = 0;
+    float velocity = 0;
+
+    int gameState = 0;
+    float gravity = 2;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		background = new Texture("bg.png");
+
 		birds = new Texture[2];
         birds[0] = new Texture("bird.png");
         birds[1] = new Texture("bird2.png");
-	}
+
+        birdY = Gdx.graphics.getHeight() / 2 - birds[0].getHeight() / 2;
+    }
 
 	@Override
 	public void render () {
-        if (Gdx.input.isTouched()) {
-            Gdx.app.log("Touched", "Yes");
+        if (gameState != 0) {
+            if (Gdx.input.isTouched()) {
+                velocity = -30;
+            }
+
+            if (birdY > 0 || velocity < 0) {
+                velocity += gravity;
+                birdY -= velocity;
+            }
+        } else if (Gdx.input.isTouched()) {
+            gameState = 1;
         }
 
         if (flapState == 0) {
@@ -34,12 +52,13 @@ public class FlappyBird extends ApplicationAdapter {
             flapState = 0;
         }
 
+
         batch.begin();
 
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         batch.draw(background, 0, 0, width, height);
-        batch.draw(birds[flapState], width / 2 - birds[flapState].getWidth() / 2, height / 2 - birds[flapState].getHeight() / 2);
+        batch.draw(birds[flapState], width / 2 - birds[flapState].getWidth() / 2, birdY);
 
         batch.end();
     }
