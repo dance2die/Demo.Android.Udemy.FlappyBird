@@ -24,19 +24,23 @@ public class FlappyBird extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+        if (Gdx.input.isTouched()) {
+            Gdx.app.log("Touched", "Yes");
+        }
+
         if (flapState == 0) {
             flapState = 1;
         } else {
             flapState = 0;
         }
 
-		batch.begin();
+        batch.begin();
 
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         batch.draw(background, 0, 0, width, height);
         batch.draw(birds[flapState], width / 2 - birds[flapState].getWidth() / 2, height / 2 - birds[flapState].getHeight() / 2);
 
-		batch.end();
-	}
+        batch.end();
+    }
 }
