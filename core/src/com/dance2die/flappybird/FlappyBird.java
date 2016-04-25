@@ -27,10 +27,13 @@ public class FlappyBird extends ApplicationAdapter {
 
     float maxTubeOffset;
     Random random;
-    float tubeOffset;
 
     float tubeVelocity = 4;
-    float tubeX;
+    int numberOfTubes = 4;
+    float[] tubeX = new float[numberOfTubes];
+    float[] tubeOffset = new float[numberOfTubes];
+
+    float distnceBetweenTubes;
 
 	@Override
 	public void create () {
@@ -49,6 +52,12 @@ public class FlappyBird extends ApplicationAdapter {
         maxTubeOffset = Gdx.graphics.getHeight() / 2 - gap / 2 - 100;
         random = new Random();
 
+        distnceBetweenTubes = Gdx.graphics.getWidth() / 2;
+
+        for (int i = 0; i < numberOfTubes; i++){
+            tubeOffset[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - gap - 200);
+            tubeX[i] = Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2 + i * distnceBetweenTubes;
+        }
 
     }
 
@@ -63,19 +72,20 @@ public class FlappyBird extends ApplicationAdapter {
         if (gameState != 0) {
             if (Gdx.input.isTouched()) {
                 velocity = -30;
-                tubeOffset = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - gap - 200);
-                tubeX = Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2;
             }
 
-            tubeX -= 4;
 
-            batch.draw(topTube,
-                    tubeX,
-                    Gdx.graphics.getHeight() / 2 + gap / 2 + tubeOffset);
-            batch.draw(bottomTube,
-                    tubeX,
-                    Gdx.graphics.getHeight() / 2 - gap / 2 - bottomTube.getHeight() + tubeOffset
-            );
+            for (int i = 0; i < numberOfTubes; i++) {
+                tubeX[i] -= tubeVelocity;
+
+                batch.draw(topTube,
+                    tubeX[i],
+                    Gdx.graphics.getHeight() / 2 + gap / 2 + tubeOffset[i]);
+                batch.draw(bottomTube,
+                    tubeX[i],
+                    Gdx.graphics.getHeight() / 2 - gap / 2 - bottomTube.getHeight() + tubeOffset[i]
+               );
+            }
 
             if (birdY > 0 || velocity < 0) {
                 velocity += gravity;
