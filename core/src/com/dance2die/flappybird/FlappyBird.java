@@ -19,6 +19,12 @@ public class FlappyBird extends ApplicationAdapter {
     int gameState = 0;
     float gravity = 2;
 
+    Texture topTube;
+    Texture bottomTube;
+    float gap = 400;
+
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -29,11 +35,28 @@ public class FlappyBird extends ApplicationAdapter {
         birds[1] = new Texture("bird2.png");
 
         birdY = Gdx.graphics.getHeight() / 2 - birds[0].getHeight() / 2;
+
+        topTube = new Texture("toptube.png");
+        bottomTube = new Texture("bottomtube.png");
     }
 
 	@Override
 	public void render () {
+        batch.begin();
+
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+        batch.draw(background, 0, 0, width, height);
+
         if (gameState != 0) {
+            batch.draw(topTube,
+                    Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2,
+                    Gdx.graphics.getHeight() / 2 + gap / 2);
+            batch.draw(bottomTube,
+                    Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2,
+                    Gdx.graphics.getHeight() / 2 - gap / 2 - bottomTube.getHeight()
+            );
+
             if (Gdx.input.isTouched()) {
                 velocity = -30;
             }
@@ -53,11 +76,6 @@ public class FlappyBird extends ApplicationAdapter {
         }
 
 
-        batch.begin();
-
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-        batch.draw(background, 0, 0, width, height);
         batch.draw(birds[flapState], width / 2 - birds[flapState].getWidth() / 2, birdY);
 
         batch.end();
