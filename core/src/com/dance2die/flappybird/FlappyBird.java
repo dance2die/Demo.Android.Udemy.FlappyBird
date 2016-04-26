@@ -16,7 +16,7 @@ import java.util.Random;
 public class FlappyBird extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture background;
-    ShapeRenderer shapeRenderer;
+//    ShapeRenderer shapeRenderer;
 
 	Texture[] birds;
     int flapState = 0;
@@ -50,7 +50,7 @@ public class FlappyBird extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		background = new Texture("bg.png");
 
-        shapeRenderer = new ShapeRenderer();
+//        shapeRenderer = new ShapeRenderer();
         birdCircle = new Circle();
 
 		birds = new Texture[2];
@@ -73,7 +73,7 @@ public class FlappyBird extends ApplicationAdapter {
         for (int i = 0; i < numberOfTubes; i++){
             tubeOffset[i] = (random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - gap - 200);
 
-            tubeX[i] = Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2 + i * distnceBetweenTubes;
+            tubeX[i] = Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2 + Gdx.graphics.getWidth() + i * distnceBetweenTubes;
 
             topTubeRectangles[i] = new Rectangle();
             bottomTubeRectangles[i] = new Rectangle();
@@ -142,18 +142,18 @@ public class FlappyBird extends ApplicationAdapter {
 
         birdCircle.set(Gdx.graphics.getWidth() / 2, birdY + birds[flapState].getHeight() / 2, birds[flapState].getWidth() / 2);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.circle(birdCircle.x, birdCircle.y, birdCircle.radius);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(Color.RED);
+//        shapeRenderer.circle(birdCircle.x, birdCircle.y, birdCircle.radius);
 
         for (int i = 0; i < numberOfTubes; i++) {
-            shapeRenderer.rect(tubeX[i],
-                    Gdx.graphics.getHeight() / 2 + gap / 2 + tubeOffset[i],
-                    topTube.getWidth(), topTube.getHeight());
-            shapeRenderer.rect(tubeX[i],
-                    Gdx.graphics.getHeight() / 2 - gap / 2 - bottomTube.getHeight() + tubeOffset[i],
-                    bottomTube.getWidth(), bottomTube.getHeight()
-            );
+//            shapeRenderer.rect(tubeX[i],
+//                    Gdx.graphics.getHeight() / 2 + gap / 2 + tubeOffset[i],
+//                    topTube.getWidth(), topTube.getHeight());
+//            shapeRenderer.rect(tubeX[i],
+//                    Gdx.graphics.getHeight() / 2 - gap / 2 - bottomTube.getHeight() + tubeOffset[i],
+//                    bottomTube.getWidth(), bottomTube.getHeight()
+//            );
 
             if (Intersector.overlaps(birdCircle, topTubeRectangles[i]) ||
                     Intersector.overlaps(birdCircle, bottomTubeRectangles[i])) {
@@ -161,6 +161,6 @@ public class FlappyBird extends ApplicationAdapter {
             }
         }
 
-        shapeRenderer.end();
+//        shapeRenderer.end();
     }
 }
