@@ -27,6 +27,8 @@ public class FlappyBird extends ApplicationAdapter {
 
     int gameState = 0;
     float gravity = 2;
+    int score = 0;
+    int scoringTube = 0;
 
     Texture topTube;
     Texture bottomTube;
@@ -90,10 +92,19 @@ public class FlappyBird extends ApplicationAdapter {
         batch.draw(background, 0, 0, width, height);
 
         if (gameState != 0) {
+            if (tubeX[scoringTube] < Gdx.graphics.getWidth()) {
+                score++;
+                Gdx.app.log("Score", String.valueOf(score));
+                if (scoringTube < numberOfTubes - 1) {
+                    scoringTube++;
+                } else {
+                    scoringTube = 0;
+                }
+            }
+
             if (Gdx.input.isTouched()) {
                 velocity = -30;
             }
-
 
             for (int i = 0; i < numberOfTubes; i++) {
                 if (tubeX[i] < -topTube.getWidth()){
@@ -157,7 +168,7 @@ public class FlappyBird extends ApplicationAdapter {
 
             if (Intersector.overlaps(birdCircle, topTubeRectangles[i]) ||
                     Intersector.overlaps(birdCircle, bottomTubeRectangles[i])) {
-                Gdx.app.log("Collision", "Yes");
+//                Gdx.app.log("Collision", "Yes");
             }
         }
 
