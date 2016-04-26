@@ -19,6 +19,8 @@ public class FlappyBird extends ApplicationAdapter {
 	Texture background;
 //    ShapeRenderer shapeRenderer;
 
+    Texture gameover;
+
 	Texture[] birds;
     int flapState = 0;
 
@@ -53,6 +55,7 @@ public class FlappyBird extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		background = new Texture("bg.png");
+        gameover = new Texture("gameover.jpg");
 
 //        shapeRenderer = new ShapeRenderer();
         birdCircle = new Circle();
@@ -96,7 +99,7 @@ public class FlappyBird extends ApplicationAdapter {
         int height = Gdx.graphics.getHeight();
         batch.draw(background, 0, 0, width, height);
 
-        if (gameState != 0) {
+        if (gameState == 1) {
             if (tubeX[scoringTube] < Gdx.graphics.getWidth()) {
                 score++;
                 Gdx.app.log("Score", String.valueOf(score));
@@ -139,12 +142,18 @@ public class FlappyBird extends ApplicationAdapter {
                 );
             }
 
-            if (birdY > 0 || velocity < 0) {
+            if (birdY > 0) {
                 velocity += gravity;
                 birdY -= velocity;
+            } else {
+                gameState = 2;
             }
-        } else if (Gdx.input.isTouched()) {
-            gameState = 1;
+        } else if (gameState == 0) {
+            if (Gdx.input.isTouched()) {
+                gameState = 1;
+            }
+        } else if (gameState == 2) {
+            batch.draw(gameover, Gdx.graphics.getWidth() / 2 - gameover.getWidth() / 2, Gdx.graphics.getHeight() / 2 - gameover.getHeight() / 2);
         }
 
         if (flapState == 0) {
@@ -176,6 +185,7 @@ public class FlappyBird extends ApplicationAdapter {
             if (Intersector.overlaps(birdCircle, topTubeRectangles[i]) ||
                     Intersector.overlaps(birdCircle, bottomTubeRectangles[i])) {
 //                Gdx.app.log("Collision", "Yes");
+                gameState = 2;
             }
         }
 
